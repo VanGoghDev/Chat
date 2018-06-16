@@ -32,7 +32,7 @@ public class MyChatWindow extends JDialog {
         setContentPane(contentPane);
         setTitle("Client");
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);  // DISPOSE_ON_CLOSE???
+        //setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);  // DISPOSE_ON_CLOSE???
         textArea1.setLineWrap(true);
 
         getRootPane().setDefaultButton(buttonOK);
