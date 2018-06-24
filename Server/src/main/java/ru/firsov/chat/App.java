@@ -34,19 +34,6 @@ public class App {
             new Thread(client).start();
             consoleMsg();
 
-
-                /*
-                Scanner scan = new Scanner(System.in);
-                if (scan.hasNext()){
-                    String msg = scan.nextLine();
-                    out.println("Server: " + msg);
-                    out.flush();
-                }
-
-                String str = in.nextLine();
-                if (str.equals("end")) break;
-                out.println("Echo: " + str);
-                out.flush();*/
         } catch (IOException e){
             System.out.println("Initializing server error");
         } finally{
