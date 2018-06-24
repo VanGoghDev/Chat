@@ -10,35 +10,65 @@ import java.util.Scanner;
  * JavaCore. Level1. Lesson 6
  *
  * @author Firsov Kirill
- * @version dated June 15, 2018
+ * @version dated June 24, 2018
  * @link https://github.com/VanGoghDev
  */
 
-public class App 
-{
-    public static void main( String[] args )
-    {
-        ServerSocket serv = null;
-        Socket sock = null;
+public class App {
+
+    private ClientHandler client;
+    Socket sock = null;
+    ServerSocket server = null;
+
+    public static void main(String args[]){
+        App app = new App();
+    }
+
+    public App() {
         try{
-            serv = new ServerSocket(8189);
-            System.out.println("Сервер запущен, ожидаем подключения...");
-            sock = serv.accept();
-            System.out.println("Клиент подключился");
-            Scanner sc = new Scanner(sock.getInputStream());
-            PrintWriter pw = new PrintWriter(sock.getOutputStream());
-            while (true) {
-                String str = sc.nextLine();
+            server = new ServerSocket(8189);
+            System.out.println("Server is on. Waiting for client connection...");
+            sock = server.accept();
+            System.out.println("Client connected");
+            client = new ClientHandler(sock);
+            new Thread(client).start();
+            consoleMsg();
+
+
+                /*
+                Scanner scan = new Scanner(System.in);
+                if (scan.hasNext()){
+                    String msg = scan.nextLine();
+                    out.println("Server: " + msg);
+                    out.flush();
+                }
+
+                String str = in.nextLine();
                 if (str.equals("end")) break;
-                pw.print("Эхо: " + str);
-                pw.flush();
-            }
+                out.println("Echo: " + str);
+                out.flush();*/
         } catch (IOException e){
-            System.out.println("Ошибка инициализации сервера");
+            System.out.println("Initializing server error");
         } finally{
             try{
-                serv.close();
+                if (server != null) server.close();
+                System.out.println("Server closed");
+                if (sock != null) sock.close();
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void consoleMsg(){
+        Scanner scan = new Scanner(System.in);
+        while (true) {
+            try {
+                if (scan.hasNext()){
+                    String msg = scan.nextLine();
+                    client.sendMessage("Server: " + msg);
+                }
+            } catch (Exception e){
                 e.printStackTrace();
             }
         }

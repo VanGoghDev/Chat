@@ -1,6 +1,5 @@
 package ru.firsov.chat;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -54,17 +53,12 @@ public class MyChatWindow extends JDialog {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    while (true) {
-                        if (in.hasNext()) {
-                            String w = in.nextLine();
-                            if (w.equalsIgnoreCase("end session")) break;
-                            textArea1.append(w);
-                            textArea1.append("\n");
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                while (true) {
+                    if (in.hasNext()) {
+                        String w = in.nextLine();
+                        if (w.equalsIgnoreCase("end session")) break;
+                        textArea1.append(w);
+                    textArea1.append("\n"); }
                 }
             }
         }).start();
@@ -85,10 +79,8 @@ public class MyChatWindow extends JDialog {
         setVisible(true);
     }
 
-
     public void sendMsg(){
         if (!textField1.getText().trim().isEmpty()) {
-            //textArea1.append("User: " + textField1.getText() + System.lineSeparator());
             out.println(textField1.getText());
             out.flush();
             textField1.setText("");
